@@ -19,8 +19,8 @@ db.engine.echo = True
 if os.environ['DEV_ENVIRON'] == 'False':
     # SSL parameters
     context = SSL.Context(SSL.SSLv23_METHOD)
-    context.use_privatekey_file('ssl/flask.pem')
-    context.use_certificate_file('ssl/flask.crt')
+    context.use_privatekey_file(os.environ['SSL_LOCATION'] + '/flask.pem')
+    context.use_certificate_file(os.environ['SSL_LOCATION'] + '/flask.crt')
 
 # Flask parameters
 SECRET_KEY = os.environ['FLASK_SECRET_KEY']
