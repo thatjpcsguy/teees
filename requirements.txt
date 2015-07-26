@@ -1,0 +1,12 @@
+Flask==0.10.1
+Flask-WTF==0.9.4
+Jinja2==2.7.2
+MarkupSafe==0.18
+MySQL-python==1.2.5
+SQLAlchemy==0.9.1
+WTForms==1.0.5
+Werkzeug==0.9.4
+-e git+http://github.com/sjl/flask-csrf.git@6b8accf3c5460dd1fa66d1a3bb7be8f94524697f#egg=flask_csrf-v0.9.1
+itsdangerous==0.23
+pyOpenSSL==0.13.1
+wsgiref==0.1.2

@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+  <div class="row">
+    <div class="large-3 large-centered columns">
+      <a class="hide-for-small-only" href="/"><img src="static/img/cupcake.png"></a>
+    </div>  
+  </div>
+
+  <div class="row">
+    <div class="large-6 large-centered columns panel">
+      <form action={{ url_for('signup') }} method="POST">
+
+        {{ form.csrf_token }}
+
+        {{ form.username.label|e }}
+        {{ form.username()|e }}
+
+        {{ form.password.label|e }}
+        {{ form.password(autocomplete="off")|e }}
+
+        {{ form.email.label|e }}
+        {{ form.email()|e }}
+
+        {# {{ form.recaptcha()|e }} #}
+
+        <input type="submit" value="Create Account" class="large radius button"/>
+
+      </form>
+      <p>Already have an account? <a href={{ url_for('login') }}>Login!</a></p>
+    </div>
+  </div>
+
+
+{% endblock %}

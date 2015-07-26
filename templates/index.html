@@ -1,0 +1,60 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+  {% block head %}
+    <title>Teees</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/teees.css') }}">
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  {% endblock %}
+
+
+    <section class="top-bar-section">
+      <h1 class="logo">teees</h1>
+
+
+      <!-- Right nav section -->
+      <ul class="right">
+        <!-- Login/logout -->
+        {% if not session.logged_in %}
+          <!-- <a href={{ url_for('signup') }} class="success radius button">Create Account</a> -->
+        {% endif %}
+
+        <!-- Login/logout -->
+        {% if not session.logged_in %}
+          <!-- <a href={{ url_for('login') }} class="radius button">Login</a> -->
+        {% else %}
+         
+         <!--  <li class="has-dropdown">
+            <a href='/'><i class="fi-torso"> {{ session.username }} </i></a>
+            <ul class="dropdown">
+              <li><a href='/'>Security History</a></li>
+            </ul>
+          </li>
+
+          <a href={{ url_for('logout') }} class="alert radius button">Sign out</a>     -->
+        {% endif %}
+
+      </ul>
+    </section>
+  </nav>
+
+  {% block body %}
+
+
+    <div class="homepage-shirt">
+      <img src="{{ url_for('static', filename='img/teee1.png') }}">
+    </div>
+    <div class="buy-btn-large">
+      <a href="">Buy Now! $25</a>
+      <p>Only 13 Left!</p>
+    </div>
+
+
+  {% endblock %}
+
+</html>

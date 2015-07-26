@@ -1,0 +1,44 @@
+@font-face {
+    font-family: pacifico;
+    src: url(pacifico.woff);
+}
+
+.body-container {
+
+}
+
+.logo {
+	font-family: pacifico;
+	font-size: 60pt;
+	text-align: center;
+	font-weight: 300;
+}
+
+.homepage-shirt {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.homepage-shirt img {
+	border-radius: 5px;
+	width: 900px;
+	box-shadow: 0px 0px 9px grey;
+}
+
+.buy-btn-large {
+	text-align: center;
+	margin-top: 50px;
+}
+
+.buy-btn-large a {
+	font-size: 40pt;
+	color: white;
+	text-decoration: none;
+	display: inline-block;
+	background-color: #c0392b;
+	border-radius: 5px;
+	padding: 20px;
+	box-shadow: 0px 0px 9px grey;
+	text-align: center;
+	cursor: pointer;
+}

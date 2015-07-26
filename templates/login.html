@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+{% block title %}Login{% endblock %}
+{% block body %}
+
+  <div class="row">
+    <div class="large-3 small-centered columns">
+      <a class="hide-for-small-only" href="/"><img src="static/img/cupcake.png"></a>
+    </div>  
+  </div>
+
+  <div class="row">
+    <div class="large-6 large-centered columns panel">
+      <form action={{ url_for('login') }} method="POST">
+
+        {{ form.csrf_token }}
+
+        {{ form.username.label|e }}
+        {{ form.username()|e }}
+
+        {{ form.password.label|e }}
+        {{ form.password(autocomplete="off")|e }}
+
+        <input type="submit" value="Login" class="large radius button"/>
+
+      </form>
+      <p>Don't have an account yet? <a href={{ url_for('signup') }}>Create one!</a></p>
+    </div>
+  </div>
+
+{% endblock %}
