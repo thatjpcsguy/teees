@@ -16,13 +16,14 @@ port = 5000
 debug = True
 db.engine.echo = True
 
-# SSL parameters
-# context = SSL.Context(SSL.SSLv23_METHOD)
-# context.use_privatekey_file('ssl/flask.pem')
-# context.use_certificate_file('ssl/flask.crt')
+if os.environ['DEV_ENVIRON'] == 'False':
+    # SSL parameters
+    context = SSL.Context(SSL.SSLv23_METHOD)
+    context.use_privatekey_file('ssl/flask.pem')
+    context.use_certificate_file('ssl/flask.crt')
 
 # Flask parameters
-SECRET_KEY = "adfklfksdfhlaskdfjhlaskdfhj"  #os.environ['FLASK_SECRET_KEY']
+SECRET_KEY = os.environ['FLASK_SECRET_KEY']
 
 # Recaptcha
 app = flask.Flask(__name__, static_folder='static')
@@ -148,8 +149,10 @@ def page_not_found(error):
 
 if __name__ == "__main__":
     logging.basicConfig(filename='app.log', level=logging.DEBUG)
-    # app.run(host=host, debug=debug, port=port, ssl_context=context)
-    app.run(host=host, debug=debug, port=port)
+    if os.environ['DEV_ENVIRON'] == 'False':
+        app.run(host=host, port=port, ssl_context=context)
+    else:
+        app.run(host=host, debug=debug, port=port)
 
 
 

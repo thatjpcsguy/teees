@@ -11,7 +11,7 @@ import ast
 import os
 
 db_user = 'root'
-db_pass = 'lolol1234' #os.environ['MYSQL_FLASK_GUEST_PW']
+db_pass = os.environ['MYSQL_FLASK_GUEST_PW']
 db_host = 'localhost'
 db_db   = 'teees'
 db_port = 3306
