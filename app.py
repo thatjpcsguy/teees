@@ -1,5 +1,5 @@
 #/usr/bin/env python2.7
-# from OpenSSL import SSL
+
 from werkzeug._internal import _log
 
 import logging
@@ -17,6 +17,7 @@ debug = True
 db.engine.echo = True
 
 if os.environ['DEV_ENVIRON'] == 'False':
+    from OpenSSL import SSL
     # SSL parameters
     context = SSL.Context(SSL.SSLv23_METHOD)
     context.use_privatekey_file(os.environ['SSL_LOCATION'] + '/flask.pem')
