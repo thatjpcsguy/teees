@@ -1,135 +1,75 @@
 #/usr/bin/env python2.7
 
 from werkzeug._internal import _log
+import stripe
 
 import logging
 import flask
-import db
 import os
-import forms
+
+db_user = 'root'
+db_pass = os.environ['TEEES_MYSQL_PW']
+db_host = 'localhost'
+db_db   = 'teees'
+db_port = 3306
 
 
 # Server settings
 host = "0.0.0.0"
 port = 5000
 
-debug = True
-db.engine.echo = True
+debug = os.environ['TEEES_DEV_ENVIRON'] == 'True'
 
-if os.environ['DEV_ENVIRON'] == 'False':
+if os.environ['TEEES_DEV_ENVIRON'] == 'False':
     from OpenSSL import SSL
     # SSL parameters
     context = SSL.Context(SSL.SSLv23_METHOD)
-    context.use_privatekey_file(os.environ['SSL_LOCATION'] + '/flask.pem')
-    context.use_certificate_file(os.environ['SSL_LOCATION'] + '/flask.crt')
+    context.use_privatekey_file(os.environ['TEEES_SSL_LOCATION'] + '/flask.pem')
+    context.use_certificate_file(os.environ['TEEES_SSL_LOCATION'] + '/flask.crt')
 
 # Flask parameters
-SECRET_KEY = os.environ['FLASK_SECRET_KEY']
+SECRET_KEY = os.environ['TEEES_FLASK_SECRET_KEY']
 
 # Recaptcha
 app = flask.Flask(__name__, static_folder='static')
 app.config.from_object(__name__)
 
 
+stripe_keys = {
+    'secret_key': os.environ['TEEES_STRIPE_SECRET_KEY'],
+    'publishable_key': os.environ['TEEES_STRIPE_PUBLISHABLE_KEY']
+}
+
+stripe.api_key = stripe_keys['secret_key']
+
 @app.after_request
 def after_request(response):
-    response.headers.add('Content-Security-Policy', "default-src 'self'; frame-src 'none'; object-src 'none'; reflected-xss 'block'")
-    response.headers.add('X-Permitted-Cross-Domain-Policies', 'master-only')
-    response.headers.add('X-XSS-Protection', '1; mode=block')
-    response.headers.add('X-Frame-Options', 'SAMEORIGIN')
-    response.headers.add('X-Content-Type-Options', 'nosniff')
-    response.headers.add('Cache-Control', 'no-cache, no-store, must-revalidate')
-    response.headers.add('Pragma', 'no-cache')
-    response.headers.add('Expires', '-1')
     return response
 
 
 @app.route("/", methods=['GET'])
 def index():
-    return flask.render_template("index.html")
+    return flask.render_template("index.html", stripe_key=stripe_keys['publishable_key'])
 
 
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    try:
-        if flask.session['logged_in']:
-            return flask.redirect('/')
-    except KeyError as KE:
-        pass
+@app.route('/charge', methods=['POST'])
+def charge():
+    # Amount in cents
+    amount = 2500
 
-    error = None
-    form = forms.LoginForm()
-    if flask.request.method == 'POST' and form.validate_on_submit():
-        user_agent = db.clean(str(flask.request.user_agent))
-        username = db.clean(form.username.data)
-        password = db.clean(form.password.data)
-        ip = flask.request.remote_addr
+    customer = stripe.Customer.create(
+        email='customer@example.com',
+        card=request.form['stripeToken']
+    )
 
-        if db.login(username, password):
-            db.security_log(username, ip, user_agent, action_type='auth_success')
-            flask.session['logged_in'] = True
-            flask.session['username'] = username
-            return flask.redirect('/')
-        else:
-            db.security_log(username, ip, user_agent, action_type='auth_failure')
-            error = "Invalid username/password!"
+    charge = stripe.Charge.create(
+        customer=customer.id,
+        amount=amount,
+        currency='usd',
+        description='Teees: July Teee'
+    )
 
-    elif form.csrf_token.errors:
-        db.security_log(username, ip, user_agent, action_type='csrf')
-        flask.abort(403)
-
-        return flask.redirect('/')
-
-    return flask.render_template("login.html", form=form, error=error)
-
-
-@app.route("/signup", methods=['GET', 'POST'])
-def signup():
-    try:
-        if flask.session['logged_in']:
-            return flask.redirect('/')
-    except KeyError as KE:
-        pass
-
-    errors = None
-    form = forms.RegistrationForm()
-    if flask.request.method == 'POST':
-        if form.validate_on_submit():
-            user_agent = db.clean(str(flask.request.user_agent))
-            username = db.clean(form.username.data)
-            password = db.clean(form.password.data)
-            email = db.clean(form.email.data)
-            ip = flask.request.remote_addr
-
-            if not db.user_exists(username):
-                if db.create_user(username, password, email):
-                    db.security_log(username, ip, user_agent, action_type='account_create')
-            else:
-                _log('warning', "User: %s already exists, cannot create user" % username)
-                error = "Sorry, but that username is taken!"
-
-        else:
-            _log('critical', 'One or more form elements did not pass validation! Errors: %s' % str(form.errors))
-            errors = str(form.errors)
-
-    return flask.render_template("signup.html", form=form, error=errors)
-
-
-@app.route('/logout')
-def logout():
-    try:
-        if not flask.session['logged_in']:
-            return flask.redirect('/')
-    except KeyError as KE:
-        pass
-
-    user_agent = db.clean(str(flask.request.user_agent))
-    username = flask.session['username']
-    ip = flask.request.remote_addr
-
-    db.security_log(username, ip, user_agent, action_type='auth_logout')
-    flask.session.pop('logged_in', None)
-    return flask.redirect('/')
+    return render_template('charge.html', amount=amount)
 
 
 @app.route('/robots.txt')
@@ -149,8 +89,9 @@ def page_not_found(error):
 
 
 if __name__ == "__main__":
+    print "Main!"
     logging.basicConfig(filename='app.log', level=logging.DEBUG)
-    if os.environ['DEV_ENVIRON'] == 'False':
+    if os.environ['TEEES_DEV_ENVIRON'] == 'False':
         app.run(host=host, port=port, ssl_context=context)
     else:
         app.run(host=host, debug=debug, port=port)
