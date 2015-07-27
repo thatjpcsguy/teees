@@ -3,42 +3,125 @@
     src: url(pacifico.woff);
 }
 
-.body-container {
-
+body {
+	background: #222;
+	color: #ccc;
+	font-size: 16px;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .logo {
 	font-family: pacifico;
-	font-size: 60pt;
+	font-size: 6.5em;
 	text-align: center;
 	font-weight: 300;
+	color: #fff;
+	margin-top: 40px;
 }
 
-.homepage-shirt {
-	margin: 0 auto;
+.tagline {
+	padding: 30px 0;
+	background: rgba(0, 0, 0, 0.2);
+	color: #eee;
 	text-align: center;
+	margin-top: 20px;
+	margin-bottom: 100px;
 }
 
-.homepage-shirt img {
-	border-radius: 5px;
-	width: 900px;
-	box-shadow: 0px 0px 9px grey;
+.tagline h2 {
+	font-size: 1.5em;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
-.buy-btn-large {
-	text-align: center;
+
+h2.shirt-name {
+	color: #eee;
+	font-family: 'Montserrat', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	font-size: 1.5em;
+	margin-bottom: 1em;
+}
+
+@media(max-width: 996px) {
+	.teee-img {
+		margin-bottom: 40px;
+	}
+}
+
+
+@media(min-width: 996px) {
+	.content-col {
+		padding-left: 60px;
+	}
+}
+
+.checkout-buttons {
 	margin-top: 50px;
 }
 
-.buy-btn-large a {
-	font-size: 40pt;
-	color: white;
-	text-decoration: none;
-	display: inline-block;
-	background-color: #c0392b;
-	border-radius: 5px;
-	padding: 20px;
-	box-shadow: 0px 0px 9px grey;
+.checkout-buttons .size-select {
+	margin-right: 20px;
+}
+
+.checkout-buttons .btn-buy {
+	background: #DE4545;
+	border-color: #BD3737;
+	font-family: 'Montserrat', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	padding: 10px 30px;
+}
+
+.checkout-buttons .btn-buy:hover {
+	background: #BD3737;
+}
+
+.checkout-buttons label {
+	display: block;
+	margin-top: 10px;
+	font-weight: 400;	
+}
+
+.checkout-buttons label strong,
+.checkout-buttons label .strong {
+	font-weight: 600;
+	color: #eee;
+}
+
+.checkout-buttons label a {
+	color: #ccc;
+}
+
+.checkout-buttons label a:hover {
+	color: #eee;
+}
+
+hr {
+	border-color: #333;
+}
+
+.main-container {
+	margin-bottom: 45px;
+}
+
+footer {
 	text-align: center;
-	cursor: pointer;
+	color: #555;
+	margin-top: 45px;
+	margin-bottom: 150px;
+}
+
+footer .sydney {
+	height: 1em;
+	vertical-align: middle;
+	margin-left: 0.5em;
+	margin-top: -5px;
+	opacity: .25;
+}
+
+footer .made-with-icon {
+	margin: 0 0.5em;
+	display: inline-block;
 }

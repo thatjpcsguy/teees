@@ -3,36 +3,83 @@
 
     <title>Teees</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/normalize.css') }}">
-    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/teees.css') }}">
-
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 
-    <section class="top-bar-section">
-      <h1 class="logo">teees</h1>
-
-
-      <!-- Right nav section -->
-      <ul class="right">
-
-      </ul>
-    </section>
-  </nav>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/teees.css') }}">
 
 
+<body>
+  <h1 class="logo">teees</h1>
+  
 
-    <div class="homepage-shirt">
-      <img src="{{ url_for('static', filename='img/teee1.png') }}">
+  <div class="tagline">
+    <h2>Get fresh teees straight to your door every month</h2>
+  </div>
+  
+  <div class="container main-container">
+    <div class="row">
+      <div class="col-sm-4 col-sm-offset-1">
+        <img src="{{ url_for('static', filename='img/placeholder.png') }}" alt="" class="img-responsive teee-img">
+      </div>
+
+      <div class="col-sm-6 content-col">
+        <h2 class="shirt-name">July Teee</h2>
+        <p>Your bones don't break, mine do. That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do. That's also clear. But for some reason, you and I react the exact same way to water.</p>
+
+        <p>We swallow it too fast, we choke. We get some in our lungs, we drown. However unreal it may seem, we are connected, you and I. We're on the same curve, just on opposite ends.</p>
+
+        <div class="checkout-buttons">
+          <form>
+            <div class="row">
+              <div class="col-xs-4">
+                <select class="form-control input-lg size-select">
+                  <option>Small</option>
+                  <option selected>Medium</option>
+                  <option>Large</option>
+                  <option>XL</option>
+                  <option>XXL</option>
+                </select>
+                <label>
+                  <span>Size</span>
+                  <a href="#" class="pull-right">
+                    <span class="fa fa-question-circle"></span>
+                  </a>
+                </label>
+              </div>
+
+              <div class="col-xs-8">
+                <button id="btn-pay" class="btn btn-success btn-block btn-lg btn-buy">Join now <small>$29/month</small></button>
+                <label>
+                  teee expires in <strong>4 days</strong>
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="buy-btn-large">
-      <button id="btn-pay">Purchase</button>
-      <p>Only 13 Left!</p>
-    </div>
+  </div>
 
+  <div class="container">
+    <hr />
+  </div>
+
+  
+  <footer>
+    <div class="container">
+      <div class="col-md-10 col-md-offset-1">
+        Made with <span class="fa fa-heart made-with-icon"></span> in <img src="{{ url_for('static', filename='img/sydney.png') }}" class="sydney" title="Sunny Sydney" />
+      </div>
+    </div>
+  </footer>
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="https://checkout.stripe.com/checkout.js"></script>
 
 
@@ -67,4 +114,7 @@
 </script>
 
 
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+</body>
 </html>

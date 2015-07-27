@@ -1,4 +1,3 @@
-
 echo "
 Put this in your .bashrc or similar:
 
